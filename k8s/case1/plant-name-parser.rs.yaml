@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: plant-name-parser-rs
+  labels:
+    environment: dev
+    component: plant-name-parser-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      environment: dev
+      component: plant-name-parser
+  template:
+    metadata:
+      labels:
+        environment: dev
+        component: plant-name-parser
+      annotations:
+        developer: Andrey G.
+    spec:
+      containers:
+        - name: plant-name-parser
+          image: aganyushkin/plant-name-parser-service:1.0.1
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+            requests:
+              cpu: "1"
+              memory: "1Gi"
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "k8s"
+            - name: JAVA_OPTS
+              value: "-Xms1G -Xmx1G -server"

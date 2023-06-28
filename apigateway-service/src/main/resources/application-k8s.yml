@@ -1,0 +1,15 @@
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: name_parser_route
+          uri: http://plant-name-parser-service:8080/
+          predicates:
+            - Path=/parser/**
+          filters:
+            - RewritePath=/parser/(?<segment>.*),/$\{segment}
+
+minio:
+  address: http://binary-storage-service:9000
+

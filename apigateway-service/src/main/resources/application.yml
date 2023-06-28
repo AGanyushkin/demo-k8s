@@ -1,0 +1,53 @@
+
+spring:
+  application:
+    name: test-application
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 5s
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+
+      routes:
+        - id: name_parser_route
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/parser/**
+          filters:
+            - RewritePath=/parser/(?<segment>.*),/$\{segment}
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway
+  endpoint:
+    gateway:
+      enabled: true
+
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+
+minio:
+  address: http://127.0.0.1:9000
+  accessKey: admin
+  secretKey: password
+  bucket: test-bucket
+  objectName: file-2.png

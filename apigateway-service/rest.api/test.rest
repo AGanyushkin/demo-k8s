@@ -1,0 +1,22 @@
+###
+
+POST http://localhost/api/v1/parse
+Content-Type: application/json
+
+{
+  "text": "betula pendula"
+}
+
+
+###
+
+POST http://localhost/parser/api/v1/parse
+Content-Type: application/json
+
+{
+"text": "betula pendula"
+}
+
+###
+
+GET http://localhost/binary
